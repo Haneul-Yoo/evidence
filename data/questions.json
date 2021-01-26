@@ -1,0 +1,20 @@
+[
+    {
+        "id": "strength",
+        "text": "How strongly each response can serve as evidence to refute the highlighted sentence in argument?",
+        "option": {
+            "0": "Very Weak",
+            "1": "Weak",
+            "2": "Strong",
+            "3": "Very Strong"
+        }
+    },
+    {
+        "id": "url",
+        "text": "Do you need more context in URL to understand the evidence and refute the argument?",
+        "option": {
+            "0": "Not Necessary",
+            "1": "Necessary"
+        }
+    }
+]
