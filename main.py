@@ -203,9 +203,6 @@ def task_submit():
         # save_response(res_output_path, context_id, user_id, response, message, isPassed)
     # save_response(res_output_path, context_id, user_id, response, message, isPassed)
 
-    print(response)
-    print(response.keys())
-
     for cid in range(0,context_id+1):
         # context = contexts[cid]['context']
         # statement = contexts[cid]['statement']
@@ -214,7 +211,6 @@ def task_submit():
         # value = response[qid] if qid in response else -1
 
         claim_id = contexts[cid]['id']
-        print(claim_id)
         response = response[claim_id] if claim_id in response else -1
         
         # value = response[contexts[cid[id]]]
