@@ -9,7 +9,7 @@ app = Flask(__name__)
 data_path = './data'
 output_path = './output'
 context_count_per_user = 2
-user_count_per_context = 3
+user_count_per_context = 2
 secret_code = 'cmv_'
 
 
