@@ -58,7 +58,7 @@ def manage_turker(filename, answercode):
     for _,mturk in mturks.items():
         if (mturk['Answer.surveycode'].startswith(answercode)):
             for uid in evaluates:
-                if uid == mturk['Answer.surveycode'][9:]:
+                if uid == mturk['Answer.surveycode'][4:]:
                     if evaluates[uid]['valid'] == False:
                         mturks[answercode+uid]['Reject'] = 'You failed in a validation question.'
                     else:
