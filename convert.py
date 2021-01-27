@@ -12,7 +12,11 @@ def load_jsonl(filename):
     return data
 
 def get_cmv(data):
+    cnt = 0
     for row in data:
+        cnt += 1
+        if cnt >= 100:
+            break
         book = {
             'id': row['claim_id'],
             'claim_text': row['claim_text'],
@@ -23,6 +27,7 @@ def get_cmv(data):
             book['con_evidence'].append({
                 'ev_id': con_evidence['id'],
                 'ev_url': con_evidence['ev_url'],
+                'ev_netloc': con_evidence['ev_url_netloc'],
                 'ev_text': con_evidence['ev_text'],
                 'ev_context': con_evidence['ev_context']
             })
@@ -41,6 +46,7 @@ def get_kialo(data):
             book['con_evidence'].append({
                 'ev_id': con_evidence['id'],
                 'ev_url': con_evidence['ev_url'],
+                'ev_netloc': con_evidence['ev_url_netloc'],
                 'ev_text': con_evidence['ev_text'],
                 'ev_context': con_evidence['ev_context']
             })
@@ -48,6 +54,9 @@ def get_kialo(data):
             json.dump(book, f, sort_keys=True, indent=4)
 
 def conv(filename):
+    if not os.path.exists('./data/contexts'):
+        os.makedirs('./data/contexts')
+
     if filename.startswith('cmv'):
         get_cmv(load_jsonl(filename))
     elif filename.startswith('kialo'):
@@ -55,7 +64,6 @@ def conv(filename):
 
 def main():
     conv('cmv-annot')
-    conv('kialo-annot')
 
 if __name__ == "__main__":
     main()

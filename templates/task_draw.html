@@ -4,7 +4,7 @@
     <nav class="navbar is-primary" role="navigation" aria-label="main navigation">
         <div class="navbar-brand">
             <div class="navbar-item">
-                Argument Generation Study - Evidence Annotation
+                Argument Generation Study - CMV Evidence Annotation
             </div>
         </div>
         <div class="navbar-menu">
@@ -23,75 +23,80 @@
             </div>
             <template v-for="(context, i) of contexts" v-if="i === contextIndex" >
                 <div class="v-padded validator" v-if="validateIndexes.includes(contextIndex)">
-                    <div>
-                        <h4>Context</h4>
-                        <span v-for="ctext in context.claim_context">
-                            <b v-if="ctext == context.claim_text"> [[ ctext ]] </b>
-                            <span v-else>[[ ctext ]]</span>
-                        </span>
+                    <div class="columns">
+                        <div class="column" style="position:sticky; top:0; background-color: whitesmoke; overflow: scroll; height: 75vh;">
+                            <h4>Argument</h4>
+                            <span v-for="ctext in context.claim_context">
+                                <b v-if="ctext == context.claim_text"> [[ ctext ]] </b>
+                                <span v-else>[[ ctext ]]</span>
+                            </span>
+                        </div>
+                        <div class="column">
+                            <div class="columns is-multiline">
+                                <div class="column">
+                                    <div v-for="(ev, ev_index) in context.con_evidence">
+                                        <div>
+                                            <h4>Refuting Evidence [[ ev_index + 1 ]]</h4>
+                                            <span v-for="etext in ev.ev_context">
+                                                <b v-if="etext == ev.ev_text"> [[ etext ]] </b>
+                                                <span v-else>[[ etext ]]</span>
+                                            </span>
+                                            <div>
+                                                <a v-bind:href="ev.ev_url" target="_blank"> See the full reference ([[ ev.ev_netloc ]])</a>
+                                            </div>
+                                        </div>
+                                        <br>
+                                        <div>
+                                            <h4>Questions</h4>
+                                            <ul>
+                                                <li v-for="question in questions" :key="question.id">
+                                                    <vue-markdown :source="question.text"></vue-markdown>
+                                                    <div class="buttons is-left has-addons">
+                                                        <button v-for="v in Object.keys(question.option)" :key="v" class="button"
+                                                            :class="{ 'is-black': isValue(ev.ev_id, question.id, v) }"
+                                                            @click="selectValue(ev.ev_id, question.id, v)">
+                                                            [[ question.option[v+''] ]]
+                                                        </button>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <hr>
+                                    </div>
+                                </div>
+                                <div v-if="contextIndex == validateContext">
+                                    <div class="column">
+                                        <h4>Instruction</h4>
+                                        <div>
+                                            This item has been inserted to check if you really pay attention to the content of evidence.<br>
+                                            Answer 
+                                            <b>[[ questions[0].option[validateValue.strength+''] ]]</b> and
+                                            <b>[[ questions[1].option[validateValue.url+''] ]]</b>
+                                             for this question.<br>
+                                            If you miss this question, we cannot trust your answers in this HIT and will not pay you for this HIT.
+                                        </div>
+                                    </div>
+                                    <div class="column">
+                                        <div>
+                                            <h4>Questions</h4>
+                                            <ul>
+                                                <li v-for="question in questions" :key="question.id">
+                                                    <vue-markdown :source="question.text"></vue-markdown>
+                                                    <div class="buttons is-left has-addons">
+                                                        <button v-for="v in Object.keys(question.option)" :key="v" class="button"
+                                                            :class="{ 'is-black': isValidateValue(question.id, v) }"
+                                                            @click="selectValidateValue(question.id, v)">
+                                                            [[ question.option[v+''] ]]
+                                                        </button>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <hr>
-                    <div>
-                        <div v-for="ev in context.con_evidence"  class="columns" style="border-bottom: 2px solid whitesmoke;">
-                            <div class="column">
-                                <h4>Statement</h4>
-                                <span v-for="etext in ev.ev_context">
-                                    <b v-if="etext == ev.ev_text"> [[ etext ]] </b>
-                                    <span v-else>[[ etext ]]</span>
-                                </span>
-                                <div>
-                                    <a v-bind:href="ev.ev_url" target="_blank"> See the full reference </a>
-                                </div>
-                            </div>
-                            <div class="column">
-                                <h4>Question</h4>
-                                <div class="v-padded" v-for="question in questions" :key="question.id">
-                                    [[ question.text]]
-                                    <div class="buttons is-left">
-                                        <button v-for="v in Object.keys(question.option)" :key="v" class="button is-fullwidth"
-                                            :class="{ 'is-black': isValue(ev.ev_id, question.id, v) }"
-                                            @click="selectValue(ev.ev_id, question.id, v)">
-                                            [[ question.option[v+''] ]]
-                                        </button>
-                                        <br />
-                                    </div>
-                                </div>
-                            </div>
-                            <hr>
-                        </div>
-                        <div v-if="contextIndex == validateContext" class="columns">
-                            <div class="column">
-                                <h4>Statement</h4>
-                                <span v-for="etext in context.con_evidence[0].ev_context">
-                                    <b v-if="etext == context.con_evidence[0].ev_text"> [[ etext ]] </b>
-                                    <span v-else>[[ etext ]]</span>
-                                </span>
-                                <div>
-                                    <a v-bind:href="context.con_evidence[0].ev_url" target="_blank"> See the full reference </a>
-                                </div>
-                            </div>
-                            <div class="column">
-                                <h4>Question</h4>
-                                <div style="color: #009e6c;">
-                                    This is a question to validate your answer. <br />
-                                    Answer as 
-                                    <b>[[ questions[0].option[validateValue.strength+''] ]]</b> and
-                                    <b>[[ questions[1].option[validateValue.url+''] ]]</b>
-                                    respectively for a following question. 
-                                </div>
-                                <div class="v-padded" v-for="question in questions" :key="question.id">
-                                    [[ question.text ]]
-                                    <div class="buttons is-left">
-                                        <button v-for="v in Object.keys(question.option)" :key="v" class="button is-fullwidth"
-                                            :class="{ 'is-black': isValidateValue(question.id, v) }"
-                                            @click="selectValidateValue(question.id, v)">
-                                            [[ question.option[v+''] ]]
-                                        </button>
-                                        <br />
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                 </div>
                 <div class="v-padded">
