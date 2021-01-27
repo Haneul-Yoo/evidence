@@ -19,7 +19,7 @@ def get_cmv(data):
             break
         book = {
             'id': row['claim_id'],
-            'claim_text': row['claim_text'],
+            'claim_index': row['post_sent_idx'],
             'claim_context': row['post_sents'],
             'con_evidence': []
         }

@@ -26,9 +26,9 @@
                     <div class="columns">
                         <div class="column" style="position:sticky; top:0; background-color: whitesmoke; overflow: scroll; height: 75vh;">
                             <h4>Argument</h4>
-                            <span v-for="ctext in context.claim_context">
-                                <b v-if="ctext == context.claim_text"> [[ ctext ]] </b>
-                                <span v-else>[[ ctext ]]</span>
+                            <span v-for="(ctext, cidx) in context.claim_context">
+                                <b v-if="cidx == context.claim_index"> [[ ctext ]] </b>
+                                <span v-else>[[ ctext ]] </span>
                             </span>
                         </div>
                         <div class="column">
