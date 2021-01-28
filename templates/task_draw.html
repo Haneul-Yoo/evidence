@@ -66,14 +66,16 @@
                                 </div>
                                 <div v-if="contextIndex == validateContext">
                                     <div class="column">
-                                        <h4>Instruction</h4>
+                                        <h4 id='txt'>Refuting Evidence [[context.con_evidence.length+1]]</h4>
                                         <div>
-                                            This item has been inserted to check if you really pay attention to the content of evidence.<br>
+                                            Dear worker, read this instruction carefully. 
+                                            This item has been inserted to check if you really pay attention to the content of evidence. 
                                             Answer 
                                             <b>[[ questions[0].option[validateValue.strength+''] ]]</b> and
                                             <b>[[ questions[1].option[validateValue.url+''] ]]</b>
-                                             for this question.<br>
-                                            If you miss this question, we cannot trust your answers in this HIT and will not pay you for this HIT.
+                                            for this question.
+                                            If you miss this question, we cannot trust your answers in this HIT and will not pay you for this HIT. <br>
+                                            <a v-bind:href="context.con_evidence[0].ev_url" target="_blank">See the full reference ([[ context.con_evidence[0].ev_netloc ]])</a>
                                         </div>
                                     </div>
                                     <div class="column">
