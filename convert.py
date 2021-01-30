@@ -63,7 +63,7 @@ def conv(filename):
         get_kialo(load_jsonl(filename))
 
 def main():
-    conv('cmv-annot')
+    conv('cmv-annot-1')
 
 if __name__ == "__main__":
     main()
