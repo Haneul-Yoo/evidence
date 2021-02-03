@@ -204,18 +204,8 @@ def task_submit():
         # save_response(res_output_path, context_id, user_id, response, message, isPassed)
     # save_response(res_output_path, context_id, user_id, response, message, isPassed)
 
-    for cid in range(0,context_id+1):
-        # context = contexts[cid]['context']
-        # statement = contexts[cid]['statement']
-        # label = contexts[cid]['label']
-        # qid = contexts[cid]['id']
-        # value = response[qid] if qid in response else -1
-
-        claim_id = contexts[cid]['id']
-        response = response[claim_id] if claim_id in response else -1
-        
-        # value = response[contexts[cid[id]]]
-
+    for claim_id in response.keys():
+        r = response[claim_id]
         result = dict(claim_id=claim_id, response=response,
             uid=user_id, wid=worker_id, isValid=isValid, validator=validate, timestamp=timestamp)
         
