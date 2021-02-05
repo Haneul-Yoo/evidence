@@ -15,9 +15,9 @@ def get_cmv(data):
     cnt = 0
     for row in data:
         cnt += 1
-        if cnt < 200:
+        if cnt < 300:
             continue
-        if cnt > 300:
+        if cnt > 400:
             break
         book = {
             'id': row['claim_id'],
