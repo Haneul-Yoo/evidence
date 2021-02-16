@@ -11,30 +11,41 @@ def load_jsonl(filename):
             data.append(row)
     return data
 
+def get_plus():
+    plus_cid = []
+    plus_eid = []
+    with open('./data/cmv_plus.csv', 'r', encoding='UTF-8') as f:
+        reader = csv.reader(f)
+        next(reader, None)
+        for row in reader:
+            plus_cid.append(row[0])
+            plus_eid.append(row[1])
+    return plus_cid, plus_eid
+
 def get_cmv(data):
+    plus_cid, plus_eid = get_plus()
     cnt = 0
+    print(plus_cid)
     for row in data:
-        cnt += 1
-        if cnt < 400:
-            continue
-        if cnt > 1000:
-            break
         book = {
             'id': row['claim_id'],
             'claim_index': row['post_sent_idx'],
             'claim_context': row['post_sents'],
             'con_evidence': []
         }
+        if book['id'] not in plus_cid:
+            continue
         for con_evidence in row['con_evidence']:
-            book['con_evidence'].append({
-                'ev_id': con_evidence['id'],
-                'ev_url': con_evidence['ev_url'],
-                'ev_netloc': con_evidence['ev_url_netloc'],
-                'ev_text': con_evidence['ev_text'],
-                'ev_context': con_evidence['ev_context']
-            })
-        with open('./data/contexts/%s.json' % book['id'], 'w') as f:
-            json.dump(book, f, sort_keys=True, indent=4)
+            if con_evidence['id'] in plus_eid:
+                book['con_evidence'].append({
+                    'ev_id': con_evidence['id'],
+                    'ev_url': con_evidence['ev_url'],
+                    'ev_netloc': con_evidence['ev_url_netloc'],
+                    'ev_text': con_evidence['ev_text'],
+                    'ev_context': con_evidence['ev_context']
+                })
+                with open('./data/contexts/%s.json' % book['id'], 'w') as f:
+                    json.dump(book, f, sort_keys=True, indent=4)
 
 def get_kialo(data):
     for row in data:

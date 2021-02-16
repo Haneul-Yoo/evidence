@@ -4,7 +4,7 @@
     <nav class="navbar is-primary" role="navigation" aria-label="main navigation">
         <div class="navbar-brand">
             <div class="navbar-item">
-                Argument Generation Study - CMV Evidence Annotation
+                Argument Generation Study - CMV Evidence Annotation +
             </div>
         </div>
         <div class="navbar-menu">
@@ -160,7 +160,7 @@
             validateIndexes: [],
             // message: loadValue('message') || {},
             workerId: window.location.search.split("=")[1],
-            validateContext: Math.floor(Math.random() * 2),
+            validateContext: Math.floor(Math.random() * 5),
             validateValue: {"strength":Math.floor(Math.random() * 4), "url":Math.floor(Math.random() * 2)},
             validator: {"strength":null, "url":null}
         },
