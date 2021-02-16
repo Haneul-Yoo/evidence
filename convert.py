@@ -24,8 +24,6 @@ def get_plus():
 
 def get_cmv(data):
     plus_cid, plus_eid = get_plus()
-    cnt = 0
-    print(plus_cid)
     for row in data:
         book = {
             'id': row['claim_id'],
@@ -44,8 +42,8 @@ def get_cmv(data):
                     'ev_text': con_evidence['ev_text'],
                     'ev_context': con_evidence['ev_context']
                 })
-                with open('./data/contexts/%s.json' % book['id'], 'w') as f:
-                    json.dump(book, f, sort_keys=True, indent=4)
+        with open('./data/contexts/%s.json' % book['id'], 'w') as f:
+            json.dump(book, f, sort_keys=True, indent=4)
 
 def get_kialo(data):
     for row in data:
