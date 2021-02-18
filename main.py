@@ -77,7 +77,7 @@ def draw_context_ids(wid):
             break
         min_count = min(valid_counts)
         draw_box = [cid for cid, count in count_dict.items() if (count < user_count_per_context) and (cid not in context_ids) and (cid not in context_wids)]
-        context_ids.append(random.choice(draw_box[0:29]))
+        context_ids.append(random.choice(draw_box[0:29]) if len(draw_box) >= 28 else draw_box)
         # draw_box = [cid for cid, count in count_dict.items() if (count < user_count_per_context) and (cid not in context_ids) and (cid not in context_wids)]
         # if len(draw_box) == 0:
         #     break
