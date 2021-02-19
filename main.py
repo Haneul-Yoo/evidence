@@ -8,8 +8,8 @@ from flask import Flask, redirect, request, render_template
 app = Flask(__name__)
 data_path = './data'
 output_path = './output'
-context_count_per_user = 2
-user_count_per_context = 2
+context_count_per_user = 5
+user_count_per_context = 1
 secret_code = 'cmv_'
 
 
@@ -77,7 +77,7 @@ def draw_context_ids(wid):
             break
         min_count = min(valid_counts)
         draw_box = [cid for cid, count in count_dict.items() if (count < user_count_per_context) and (cid not in context_ids) and (cid not in context_wids)]
-        context_ids.append(random.choice(draw_box[0:29]) if len(draw_box) >= 28 else draw_box)
+        context_ids.append(random.choice(draw_box))
         # draw_box = [cid for cid, count in count_dict.items() if (count < user_count_per_context) and (cid not in context_ids) and (cid not in context_wids)]
         # if len(draw_box) == 0:
         #     break
