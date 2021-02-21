@@ -8,7 +8,7 @@ from flask import Flask, redirect, request, render_template
 app = Flask(__name__)
 data_path = './data'
 output_path = './output'
-context_count_per_user = 5
+context_count_per_user = 2
 user_count_per_context = 1
 secret_code = 'cmv_'
 
